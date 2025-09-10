@@ -1,0 +1,108 @@
+services:
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:v1.125.1
+    restart: always
+    ports:
+      - 8428:8428
+      - 9428:9428
+    volumes:
+      - /opt/victoriametrics/victoria-metrics-data:/victoria-metrics-data
+    command:
+      - -storageDataPath=/victoria-metrics-data
+    container_name: victoriametrics
+    networks:
+      - vmag-network
+
+  mariadb:
+    image: mariadb:12.0.2
+    container_name: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: admin12345
+      MARIADB_DATABASE: grafana
+      MARIADB_USER: grafana
+      MARIADB_PASSWORD: admin12345
+    volumes:
+      - /opt/mariadb/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - vmag-network
+
+  grafana:
+    image: grafana/grafana:12.2.0-17567790421
+    container_name: grafana
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      # Usuario y password de la base de datos de Grafana
+      GF_DATABASE_TYPE: mysql
+      GF_DATABASE_HOST: mariadb:3306
+      GF_DATABASE_NAME: grafana
+      GF_DATABASE_USER: grafana
+      GF_DATABASE_PASSWORD: admin12345
+      # Usuario y password de Grafana
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin12345
+      # Plugins instalados
+      GF_INSTALL_PLUGINS: "victoriametrics-metrics-datasource"
+    volumes:
+      - /opt/grafana/grafana_data:/var/lib/grafana
+      # Agrega esta línea para el provisionamiento del datasource
+      - /opt/grafana/provisioning:/etc/grafana/provisioning/
+    networks:
+      - vmag-network
+    depends_on:
+      - mariadb
+
+  vmalert:
+    image: victoriametrics/vmalert:v1.125.1
+    container_name: vmalert
+    restart: always
+    ports:
+      - 8880:8880
+    volumes:
+      - /opt/vmalert/rules:/etc/rules
+    command:
+      - -rule=/etc/rules/*.yml
+      - -datasource.url=http://victoriametrics:8428
+      - -notifier.url=http://alertmanager:9093
+    networks:
+      - vmag-network
+    depends_on:
+      - victoriametrics
+      - alertmanager
+
+  alertmanager:
+    image: quay.io/prometheus/alertmanager:v0.28.1
+    container_name: alertmanager
+    restart: always
+    ports:
+      - 9093:9093
+    networks:
+      - vmag-network
+
+  telegraf:
+    image: telegraf
+    build:
+      context: ./telegraf
+      dockerfile: Dockerfile
+    container_name: telegraf
+    restart: always
+    # Para leer las métricas del host, Telegraf necesita acceso a la red y el PID del anfitrión
+    network_mode: "host"
+    pid: "host"
+    volumes:
+      # Estos volúmenes le dan a Telegraf acceso de solo lectura a los directorios del sistema anfitrión
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+    # La dependencia asegura que Victoriametrics se inicie primero
+    depends_on:
+      - victoriametrics
+
+networks:
+  vmag-network:
+    driver: bridge
