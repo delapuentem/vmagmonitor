@@ -44,14 +44,28 @@ Agrega el datasource de VictoriaMetrics a Grafana por defecto.
 **victoriametrics-datasource.yml**
 ```yml
 apiVersion: 1
+
+# List of data sources to insert/update depending on what's
+# available in the database.
 datasources:
+  # <string, required> Name of the VictoriaMetrics datasource
+  # displayed in Grafana panels and queries.
   - name: victoriametrics
-    type: VictoriaMetrics
-    url: http://victoriametrics:8428
-    isDefault: true
+    # <string, required> Sets the data source type.
+    type: victoriametrics-metrics-datasource
+      # <string, required> Sets the access mode, either
+      # proxy or direct (Server or Browser in the UI).
+      # Some data sources are incompatible with any setting
+    # but proxy (Server).
     access: proxy
-    version: 1
-    editable: false
+    # <string> Sets default URL of the single node version of VictoriaMetrics
+    url: http://victoriametrics:8428
+    # <string> Sets the pre-selected datasource for new panels.
+    # You can set only one default data source per organization.
+    isDefault: true
+
+    # <string, required> Name of the VictoriaMetrics datasource
+    # displayed in Grafana panels and queries.
 ```
 
 ### Despliegue del Stack
