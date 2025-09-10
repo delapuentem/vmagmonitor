@@ -65,9 +65,9 @@ Este comando descargará las imágenes necesarias y levantará todos los servici
 ## Eliminar el stack 
 Para detener el stack, eliminar volúmenes y eliminar la imagen telegraf que se genera a partir del `docker compose up -d` ejecuta:
 ```bash
-./vmag-clean.py
+./clean.py
 ```
 Para realizar las acciones anteriores más la eliminación de los datos persistentes de los directorios especificados, ejecuta:
 ```bash
-sudo ./vmag-clean.py --remove-persistence
+sudo ./clean.py --remove-persistence
 ```
