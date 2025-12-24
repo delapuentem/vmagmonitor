@@ -39,12 +39,7 @@ def main():
     print("\n--- Paso 1: Deteniendo el stack de Docker Compose y eliminando volúmenes ---")
     ejecutar_comando(["docker", "compose", "down", "-v"])
 
-    # Paso 2: Eliminar la imagen de Telegraf especificada
-    print("\n--- Paso 2: Eliminando la imagen 'telegraf' ---")
-    # Se usa check=False para evitar que el script se cierre si la imagen no existe
-    ejecutar_comando(["docker", "rmi", "telegraf"], check=False)
-
-    # Paso 3: Eliminar condicionalmente los datos persistentes
+    # Paso 2: Eliminar condicionalmente los datos persistentes
     if eliminar_persistencia:
         print("\n--- Paso 3: Eliminando datos persistentes de los directorios ---")
         for ruta_directorio in directorios_a_limpiar:
