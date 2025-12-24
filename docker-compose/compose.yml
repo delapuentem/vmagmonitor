@@ -1,7 +1,7 @@
 services:
 
   victoriametrics:
-    image: victoriametrics/victoria-metrics:v1.125.1
+    image: victoriametrics/victoria-metrics:v1.132.0
     restart: always
     ports:
       - 8428:8428
@@ -15,7 +15,7 @@ services:
       - vmag-network
 
   mariadb:
-    image: mariadb:12.0.2
+    image: mariadb:12.1.2
     container_name: mariadb
     restart: always
     environment:
@@ -31,7 +31,7 @@ services:
       - vmag-network
 
   grafana:
-    image: grafana/grafana:12.2.0-17567790421
+    image: grafana/grafana:12.4.0-20447603318
     container_name: grafana
     restart: always
     ports:
@@ -58,7 +58,7 @@ services:
       - mariadb
 
   vmalert:
-    image: victoriametrics/vmalert:v1.125.1
+    image: victoriametrics/vmalert:v1.132.0
     container_name: vmalert
     restart: always
     ports:
@@ -76,7 +76,7 @@ services:
       - alertmanager
 
   alertmanager:
-    image: quay.io/prometheus/alertmanager:v0.28.1
+    image: quay.io/prometheus/alertmanager:v0.30.0
     container_name: alertmanager
     restart: always
     ports:
