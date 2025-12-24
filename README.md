@@ -72,7 +72,7 @@ datasources:
 Una vez que tengas los directorios y los permisos configurados, ya puedes iniciar el stack. 
 Navega hasta el directorio donde tengas tu archivo docker-compose.yml y ejecuta:
 ```bash
-docker compose up -d --build --force-recreate
+docker compose up -d
 ```
 Este comando descargará las imágenes necesarias y levantará todos los servicios en segundo plano.
 
