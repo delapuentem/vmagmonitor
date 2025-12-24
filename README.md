@@ -12,7 +12,10 @@ Una plataforma de observabilidad y visualización de datos que te permite crear 
 Un motor de alertas que evalúa reglas de alerta basadas en las métricas recopiladas. Este componente permite notificar automáticamente a los equipos de operación cuando se detectan anomalías o umbrales de rendimiento.
 
 ### Telegraf
-Un agente de recolección de métricas que recopila datos de una amplia variedad de fuentes (sistemas, servicios, bases de datos, etc.). Telegraf envía las métricas de manera eficiente a VictoriaMetrics, asegurando que tengas una visión completa del estado de tu infraestructura.
+Un agente de recolección de métricas que recopila datos de una amplia variedad de fuentes (sistemas, servicios, bases de datos, etc.). Telegraf envía las métricas de manera eficiente a VictoriaMetrics, asegurando que tengas una visión completa del estado de tu infraestructura. Se instala a nivel de SO no dockerizado por conveniencia http://github.com/influxdata/telegraf/releases
+```bash
+wget https://dl.influxdata.com/telegraf/releases/telegraf-1.37.0-1.x86_64.rpm
+```
 
 ## Requerimientos previsos
 Para desplegar este stack de monitorización, es necesario tener instalado **Docker** y **Docker Compose** en tu sistema.
