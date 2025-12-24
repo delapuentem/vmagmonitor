@@ -39,7 +39,8 @@ sudo chown -R 472:472 /opt/grafana/provisioning/datasources
 ```
 
 ## Agregar datasource a Grafana
-Agrega el datasource de VictoriaMetrics a Grafana por defecto.
+Agrega el datasource de VictoriaMetrics a Grafana para usarlo automáticamente por defecto. 
+Se debe de crear el siguiente archivo en la ruta `/opt/grafana/provisioning/datasources/`
 
 **victoriametrics-datasource.yml**
 ```yml
