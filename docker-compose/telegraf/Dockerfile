@@ -1,5 +1,5 @@
 # Usa la imagen oficial de Telegraf versión 1.30.0
-FROM telegraf:1.30.0
+FROM telegraf:1.37.0
 
 # Instala Python 3, venv, curl, vim y which
 RUN apt-get update && apt-get install -y \
