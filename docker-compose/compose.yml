@@ -84,24 +84,24 @@ services:
     networks:
       - vmag-network
 
-  telegraf:
-    image: telegraf
-    build:
-      context: ./telegraf
-      dockerfile: Dockerfile
-    container_name: telegraf
-    restart: always
-    # Para leer las métricas del host, Telegraf necesita acceso a la red y el PID del anfitrión
-    network_mode: "host"
-    pid: "host"
-    volumes:
-      # Estos volúmenes le dan a Telegraf acceso de solo lectura a los directorios del sistema anfitrión
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-    # La dependencia asegura que Victoriametrics se inicie primero
-    depends_on:
-      - victoriametrics
+#  telegraf:
+#    image: telegraf
+#    build:
+#      context: ./telegraf
+#      dockerfile: Dockerfile
+#    container_name: telegraf
+#    restart: always
+#    # Para leer las métricas del host, Telegraf necesita acceso a la red y el PID del anfitrión
+#    network_mode: "host"
+#    pid: "host"
+#    volumes:
+#      # Estos volúmenes le dan a Telegraf acceso de solo lectura a los directorios del sistema anfitrión
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#      - /proc:/host/proc:ro
+#      - /sys:/host/sys:ro
+#    # La dependencia asegura que Victoriametrics se inicie primero
+#    depends_on:
+#      - victoriametrics
 
 networks:
   vmag-network:
