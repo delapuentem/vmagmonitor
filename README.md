@@ -77,7 +77,7 @@ docker compose up -d --build --force-recreate
 Este comando descargará las imágenes necesarias y levantará todos los servicios en segundo plano.
 
 ## Eliminar el stack 
-Para detener el stack, eliminar volúmenes y eliminar la imagen telegraf que se genera a partir del `docker compose up -d` ejecuta:
+Para detener el stack, eliminar volúmenes que se genera a partir del `docker compose up -d` ejecuta:
 ```bash
 ./clean.py
 ```
